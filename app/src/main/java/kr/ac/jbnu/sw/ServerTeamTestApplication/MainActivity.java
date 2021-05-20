@@ -111,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {
-
+            if (resultCode == DataAddActivity.ADD_SUCCESS) {
+                receiveServerData();
+            }
         }
 
     }
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
             OkHttpClient okHttpClient = new OkHttpClient();
 
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("").newBuilder();
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://ampmservertest.namsu.site:8080/x_jihee-0.0.1-SNAPSHOT/").newBuilder();
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder()

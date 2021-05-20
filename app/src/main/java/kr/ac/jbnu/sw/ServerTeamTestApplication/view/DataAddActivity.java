@@ -76,6 +76,20 @@ public class DataAddActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        if (!userIdEditText.getText().toString().equals("") && !userNameEditText.getText().toString().equals("")
+                                && !userAgeEditText.getText().toString().equals("") && !userDescEditText.getText().toString().equals("")) {
+
+                            HashMap<String, String> userInputHashMap = new HashMap<String, String>() {{
+                                put("name", userNameEditText.getText().toString());
+                                put("age", userAgeEditText.getText().toString());
+                                put("desc", userDescEditText.getText().toString());
+                            }};
+
+                            postServerData(userIdEditText.getText().toString(), userInputHashMap);
+                        }
+
+                        setResult(ADD_SUCCESS);
+                        finish();
                     }
                 });
 
@@ -133,11 +147,12 @@ public class DataAddActivity extends AppCompatActivity {
 
             OkHttpClient okHttpClient = new OkHttpClient();
 
-            HttpUrl.Builder urlBuilder = HttpUrl.parse("" + id).newBuilder();
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://ampmservertest.namsu.site:8080/x_jihee-0.0.1-SNAPSHOT/post/" + id).newBuilder();
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder()
                     .url(url)
+                    .post(RequestBody.create(MediaType.parse("application/json"), new JSONObject(userHashMap).toString()))
                     .build();
 
             okHttpClient.newCall(request).enqueue(new Callback() {
